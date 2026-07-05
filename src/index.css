@@ -1,1 +1,112 @@
 @import "tailwindcss";
+
+@font-face {
+  font-family: Gilroy;
+  src:
+    url("./assets/fonts/Gilroy-Light.otf") format("opentype"),
+    url("./assets/fonts/Gilroy-Light.ttf") format("truetype");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: Gilroy;
+  src: url("./assets/fonts/Gilroy-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: Gilroy;
+  src: url("./assets/fonts/gilroy-regular-italic.ttf") format("truetype");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: Gilroy;
+  src: url("./assets/fonts/Gilroy-Medium.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: Gilroy;
+  src: url("./assets/fonts/Gilroy-SemiBold.ttf") format("truetype");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: Gilroy;
+  src: url("./assets/fonts/Gilroy-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: Gilroy;
+  src: url("./assets/fonts/Gilroy-ExtraBold.otf") format("opentype");
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: Gilroy;
+  src: url("./assets/fonts/Gilroy-Heavy.ttf") format("truetype");
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "TT Norms Pro";
+  src: url("./assets/fonts/TT Norms Pro Bold.otf") format("opentype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@theme {
+  /* Colors */
+  --color-primary: #4e2fd2;
+
+  --color-success-50: #1DF0BB;
+  --color-success: #008000;
+
+
+  --color-danger: #D8392B;
+  --color-info: #0000EE;
+
+  --color-gray-c-white: #fff;
+  --color-gray-c-200: #f0f4f7;
+  --color-gray-c-300: #e6ebf0;
+  --color-gray-c-400: #ced6de;
+  --color-gray-c-500: #a8b2bd;
+  --color-gray-c-600: #6f7882;
+  --color-gray-c-700: #525963;
+  --color-gray-c-obsidian: #0b0d10;
+
+  --color-surface: #EDF4FF;
+
+  /* text sizes */
+
+  text-xs: 0.625rem;
+  text-sm: 0.75rem;
+  text-base: 0.875rem;
+  text-lg: 1rem;
+  text-xl: 1.125rem;
+  text-2xl: 1.375rem;
+  text-3xl: 1.75rem;
+
+  /* fonts */
+  --font-sans: Gilroy, ui-sans-serif, system-ui, sans-serif;
+  --font-sans-bold: "TT Norms Pro", ui-sans-serif, system-ui, sans-serif;
+}
