@@ -1,0 +1,253 @@
+{
+  "categories": [
+    {
+      "id": "cameras",
+      "title": "Cameras",
+      "selectionMode": "multiple"
+    },
+    {
+      "id": "plans",
+      "title": "Plans",
+      "selectionMode": "single"
+    },
+    {
+      "id": "sensors",
+      "title": "Sensors",
+      "selectionMode": "multiple"
+    },
+    {
+      "id": "extra-protection",
+      "title": "Extra Protection",
+      "selectionMode": "multiple"
+    }
+  ],
+  "steps": [
+    {
+      "id": "cameras",
+      "categoryId": "cameras",
+      "title": "Cameras",
+      "description": "Choose your cameras",
+      "order": 1,
+      "icon": "icons/camera-step.svg"
+    },
+    {
+      "id": "plans",
+      "categoryId": "plans",
+      "title": "Plans",
+      "description": "Choose your plan",
+      "order": 2,
+      "icon": "icons/plan-step.svg"
+    },
+    {
+      "id": "sensors",
+      "categoryId": "sensors",
+      "title": "Sensors",
+      "description": "Choose your sensors",
+      "order": 3,
+      "icon": "icons/sensor-step.svg"
+    },
+    {
+      "id": "extra-protection",
+      "categoryId": "extra-protection",
+      "title": "Extra Protection",
+      "description": "Add extra protection",
+      "order": 4,
+      "icon": "icons/extra-protection-step.svg"
+    }
+  ],
+  "products": [
+    {
+      "id": 1,
+      "categoryId": "cameras",
+      "title": "Wyze Cam v4",
+      "description": "The clearest Wyze Cam ever made with 2.5K QHD and Color Night Vision.",
+      "image": "/images/cameras/wyze-cam-v4.png",
+      "price": 27.98,
+      "compareAtPrice": 35.98,
+      "learnMoreUrl": "#",
+      "variants": [
+        {
+          "id": 1,
+          "label": "White",
+          "image": "/images/cameras/wyze-cam-v4-white.png"
+        },
+        {
+          "id": 2,
+          "label": "Gray",
+          "image": "/images/cameras/wyze-cam-v4-gray.png"
+        },
+        {
+          "id": 3,
+          "label": "Black",
+          "image": "/images/cameras/wyze-cam-v4-black.png"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "categoryId": "cameras",
+      "title": "Wyze Cam Pan v3",
+      "description": "1080p HD pan and tilt smart camera with 360° coverage.",
+      "image": "/images/cameras/wyze-cam-pan-v3.png",
+      "price": 33.98,
+      "compareAtPrice": 39.98,
+      "learnMoreUrl": "#",
+      "variants": [
+        {
+          "id": 4,
+          "label": "White",
+          "image": "/images/cameras/wyze-cam-pan-v3-white.png"
+        },
+        {
+          "id": 5,
+          "label": "Black",
+          "image": "/images/cameras/wyze-cam-pan-v3-black.png"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "categoryId": "cameras",
+      "title": "Wyze Cam Floodlight v2",
+      "description": "Motion-activated floodlight with built-in 2K camera.",
+      "image": "/images/cameras/wyze-cam-floodlight-v2.png",
+      "price": 84.98,
+      "compareAtPrice": 94.98,
+      "learnMoreUrl": "#",
+      "variants": [
+        {
+          "id": 6,
+          "label": "White",
+          "image": "/images/cameras/wyze-cam-floodlight-v2-white.png"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "categoryId": "cameras",
+      "title": "Wyze Battery Cam Pro",
+      "description": "Wire-free outdoor camera with extended battery life and radar detection.",
+      "image": "/images/cameras/wyze-battery-cam-pro.png",
+      "price": 89.98,
+      "compareAtPrice": 103.98,
+      "learnMoreUrl": "#",
+      "variants": [
+        {
+          "id": 7,
+          "label": "Standard",
+          "image": "/images/cameras/wyze-battery-cam-pro-standard.png"
+        },
+        {
+          "id": 8,
+          "label": "With Solar Panel",
+          "image": "/images/cameras/wyze-battery-cam-pro-solar.png"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "categoryId": "cameras",
+      "title": "Wyze Duo Cam Doorbell",
+      "description": "Dual-camera video doorbell with head-to-toe view.",
+      "image": "/images/cameras/wyze-duo-cam-doorbell.png",
+      "price": 79.98,
+      "compareAtPrice": 89.98,
+      "learnMoreUrl": "#"
+    },
+    {
+      "id": 6,
+      "categoryId": "plans",
+      "title": "Cam Pro",
+      "description": "basic features supported by Wyze Cam Plus",
+      "image": "/icons/plan-icon.svg",
+      "price": 4.99,
+      "compareAtPrice": 9.99,
+      "learnMoreUrl": "#"
+    },
+    {
+      "id": 7,
+      "categoryId": "plans",
+      "title": "Cam Plus",
+      "description": "full features supported by Wyze Cam Pro",
+      "image": "/icons/plan-icon.svg",
+      "price": 8.99,
+      "compareAtPrice": 10.99,
+      "learnMoreUrl": "#"
+    },
+    {
+      "id": 8,
+      "categoryId": "plans",
+      "title": "Cam Unlimited",
+      "description": "full features supported by Wyze Cam Plus",
+      "image": "/icons/plan-icon.svg",
+      "price": 9.99,
+      "compareAtPrice": 12.99,
+      "learnMoreUrl": "#"
+    },
+    {
+      "id": 9,
+      "categoryId": "sensors",
+      "title": "Wyze Sense Motion Sensor",
+      "description": "detect movement in hallways, rooms, and high-traffic areas.",
+      "image": "/images/sensors/entry-sensor-v2.png",
+      "price": 19.99,
+      "compareAtPrice": 24.99,
+      "learnMoreUrl": "#"
+    },
+    {
+      "id": 10,
+      "categoryId": "sensors",
+      "title": "Wyze Sense Hub",
+      "description": "control your Wyze Cam system with a dedicated keypad.",
+      "image": "/images/data/sensors/Wyze Sense Hub.png",
+      "price": 14.99,
+      "learnMoreUrl": "#"
+    },
+    {
+      "id": 11,
+      "categoryId": "sensors",
+      "title": "Climate Sensor",
+      "description": "monitor temperature and humidity to protect your home.",
+      "image": null,
+      "price": 12.99,
+      "learnMoreUrl": "#"
+    },
+    {
+      "id": 12,
+      "categoryId": "sensors",
+      "title": "Leak Sensor",
+      "description": "get alerts at the first sign of water where it should not be.",
+      "image": null,
+      "price": 19.99,
+      "learnMoreUrl": "#"
+    },
+    {
+      "id": 15,
+      "categoryId": "extra-protection",
+      "title": "Wyze MicroSD Card (128GB)",
+      "description": "local continuous recording backup for compatible Wyze cameras.",
+      "image": "/images/data/accessories/micro-card.png",
+      "price": 21.58,
+      "learnMoreUrl": "#"
+    },
+    {
+      "id": 16,
+      "categoryId": "extra-protection",
+      "title": "Wyze MicroSD Card (256GB)",
+      "description": "local continuous recording backup for compatible Wyze cameras.",
+      "image": "/images/data/accessories/micro-card.png",
+      "price": 41.96,
+      "compareAtPrice": 54.99,
+      "learnMoreUrl": "#"
+    },
+    {
+      "id": 17,
+      "categoryId": "extra-protection",
+      "title": "Wyze MicroSD Card (512GB)",
+      "description": "local continuous recording backup for compatible Wyze cameras.",
+      "image": "/images/data/accessories/micro-card.png",
+      "price": 81.96,
+      "learnMoreUrl": "#"
+    }
+  ]
+}
