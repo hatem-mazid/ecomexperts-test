@@ -1,10 +1,3 @@
-export {
-  CATEGORY_IDS,
-  getVariant,
-  hasVariants,
-  resolveProductImage,
-} from './product';
-
 export type {
   Category,
   CategoryId,
@@ -16,12 +9,6 @@ export type {
   StepId,
   VariantId,
 } from './product';
-
-export {
-  createEmptySelections,
-  createInitialBundleState,
-  toSelectionKey,
-} from './bundle';
 
 export type {
   BundleSelection,

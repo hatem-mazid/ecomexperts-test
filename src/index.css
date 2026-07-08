@@ -96,16 +96,30 @@
   --color-surface: #EDF4FF;
 
   /* text sizes */
-
-  text-xs: 0.625rem;
-  text-sm: 0.75rem;
-  text-base: 0.875rem;
-  text-lg: 1rem;
-  text-xl: 1.125rem;
-  text-2xl: 1.375rem;
-  text-3xl: 1.75rem;
+  --text-xs: 0.625rem;
+  --text-sm: 0.75rem;
+  --text-base: 0.875rem;
+  --text-lg: 1rem;
+  --text-xl: 1.125rem;
+  --text-2xl: 1.375rem;
+  --text-3xl: 1.75rem;
 
   /* fonts */
   --font-sans: Gilroy, ui-sans-serif, system-ui, sans-serif;
   --font-sans-bold: "TT Norms Pro", ui-sans-serif, system-ui, sans-serif;
+
+  /* border radius */
+  --rounded-xl: .625rem;
+
+  /* breakpoints */
+  --breakpoint-xs: 380px;
+  --breakpoint-sm: 576px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 992px;
+  --breakpoint-xl: 1200px;
+  --breakpoint-2xl: 1400px;
+}
+
+button {
+  cursor: pointer;
 }

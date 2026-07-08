@@ -1,4 +1,4 @@
-import BundleBuilder from './components/pages/bundle-builder';
+import BundleBuilder from '@/components/pages/bundle-builder';
 
 function App() {
   return (

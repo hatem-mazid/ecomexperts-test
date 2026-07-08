@@ -1,12 +1,6 @@
-/** Canonical identifiers for bundle builder categories / wizard steps. */
-export const CATEGORY_IDS = {
-  CAMERAS: 'cameras',
-  PLANS: 'plans',
-  SENSORS: 'sensors',
-  EXTRA_PROTECTION: 'extra-protection',
-} as const;
+import type { CategoryId } from '@/constants/categories';
 
-export type CategoryId = (typeof CATEGORY_IDS)[keyof typeof CATEGORY_IDS];
+export type { CategoryId };
 
 /** Wizard step identifiers — 1:1 with categories in this application. */
 export type StepId = CategoryId;
@@ -48,29 +42,4 @@ export interface Product {
   compareAtPrice?: number;
   variants?: readonly ProductVariant[];
   learnMoreUrl?: string;
-}
-
-export function hasVariants(
-  product: Product,
-): product is Product & { variants: readonly ProductVariant[] } {
-  return Array.isArray(product.variants) && product.variants.length > 0;
-}
-
-export function getVariant(
-  product: Product,
-  variantId: VariantId,
-): ProductVariant | undefined {
-  return product.variants?.find((variant) => variant.id === variantId);
-}
-
-export function resolveProductImage(
-  product: Product,
-  variantId?: VariantId,
-): string {
-  if (!variantId) {
-    return product.image;
-  }
-
-  const variant = getVariant(product, variantId);
-  return variant?.image ?? product.image;
 }

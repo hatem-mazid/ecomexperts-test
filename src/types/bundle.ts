@@ -20,28 +20,3 @@ export type BundleSelections = BundleState['selections'];
 
 /** Composite key for deduplicating selections (product + optional variant). */
 export type SelectionKey = `${ProductId}` | `${ProductId}:${VariantId}`;
-
-export function toSelectionKey(
-  productId: ProductId,
-  variantId?: VariantId,
-): SelectionKey {
-  return variantId !== undefined ? `${productId}:${variantId}` : `${productId}`;
-}
-
-export function createEmptySelections(): Record<CategoryId, BundleSelection[]> {
-  return {
-    cameras: [],
-    plans: [],
-    sensors: [],
-    'extra-protection': [],
-  };
-}
-
-export function createInitialBundleState(
-  firstStepId: StepId = 'cameras',
-): BundleState {
-  return {
-    currentStepId: firstStepId,
-    selections: createEmptySelections(),
-  };
-}
