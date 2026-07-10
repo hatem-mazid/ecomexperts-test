@@ -56,12 +56,12 @@ export function ReviewLineItem({ item, onQuantityChange }: ReviewLineItemProps) 
           <div className="flex 2xl:flex-row flex-col items-center gap-2">
             {item.compareAtPrice && (
               <span className="2xl:text-xl md:text-base text-sm font-semibold line-through text-gray-600">
-                {formatPrice(item.compareAtPrice * item.quantity || 0)}
+                {formatPrice(item.compareAtPrice)}
               </span>
             )}
 
             <span className="2xl:text-xl md:text-base text-sm font-semibold text-primary">
-              {formatPrice(item.unitPrice * item.quantity || 0)}
+              {formatPrice(item.unitPrice)}
             </span>
           </div>
         </div>

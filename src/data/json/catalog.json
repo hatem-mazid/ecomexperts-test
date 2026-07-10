@@ -194,8 +194,7 @@
       "title": "Wyze Sense Motion Sensor",
       "description": "detect movement in hallways, rooms, and high-traffic areas.",
       "image": "/images/sensors/entry-sensor-v2.png",
-      "price": 19.99,
-      "compareAtPrice": 24.99,
+      "price": 59.98,
       "learnMoreUrl": "#"
     },
     {
@@ -241,7 +240,6 @@
       "description": "local continuous recording backup for compatible Wyze cameras.",
       "image": "/images/data/accessories/micro-card.png",
       "price": 41.96,
-      "compareAtPrice": 54.99,
       "learnMoreUrl": "#"
     },
     {

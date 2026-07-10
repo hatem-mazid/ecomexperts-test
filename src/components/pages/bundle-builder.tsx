@@ -11,6 +11,7 @@ import {
   resolveProductImageUrl,
 } from '@/data';
 import { toSelectionKey } from '@/domain';
+import { seedQuantities, seedSelectedByCategory } from '@/state/bundle-seeds';
 import { defaultSelectedVariants, useBundleStore } from '@/state/bundle-store';
 import { useRestoreSavedBundle } from '@/state/use-restore-saved-bundle';
 import type { CategoryId, ProductId, VariantId } from '@/types';
@@ -23,10 +24,12 @@ type QuantityKey = string;
 function BundleBuilder() {
   const saveSystem = useBundleStore((state) => state.saveSystem);
   const [openStepId, setOpenStepId] = useState<string>(catalogSteps[0]?.id ?? '');
-  const [quantities, setQuantities] = useState<Record<QuantityKey, number>>({});
+  const [quantities, setQuantities] = useState<Record<QuantityKey, number>>(
+    () => ({ ...seedQuantities }),
+  );
   const [selectedByCategory, setSelectedByCategory] = useState<
     Partial<Record<CategoryId, ProductId>>
-  >({});
+  >(() => ({ ...seedSelectedByCategory }));
   const [selectedVariants, setSelectedVariants] = useState<Record<ProductId, VariantId>>(
     () => ({ ...defaultSelectedVariants }),
   );
