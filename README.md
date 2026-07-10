@@ -1,70 +1,65 @@
-# Getting Started with Create React App
+# EcomExperts Test
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Wyze bundle builder built with React, TypeScript, Vite, and Tailwind CSS.
 
-## Available Scripts
+## Prerequisites
 
-In the project directory, you can run:
+- [Node.js](https://nodejs.org/) 18 or later (LTS recommended)
+- npm (included with Node.js)
 
-### `npm start`
+## Quick start
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+From a fresh clone:
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+```bash
+git clone <repository-url>
+cd ecomexperts-test
+npm ci
+npm run dev
+```
 
-### `npm test`
+Open [http://localhost:5173](http://localhost:5173) in your browser.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+> Use `npm install` instead of `npm ci` if `package-lock.json` is missing or you need to update dependencies.
 
-### `npm run build`
+## Available scripts
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+| Command | Description |
+| --- | --- |
+| `npm run dev` | Start the development server (alias: `npm start`) |
+| `npm run build` | Type-check and build for production to `dist/` |
+| `npm run preview` | Serve the production build locally |
+| `npm test` | Run tests with Vitest |
+| `npm run typecheck` | Run TypeScript checks only |
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Production build
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```bash
+npm ci
+npm run build
+npm run preview
+```
 
-### `npm run eject`
+The preview server runs at [http://localhost:4173](http://localhost:4173) by default.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+---
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Notes, Decisions & Tradeoffs
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### Architecture & Technology
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+- **TypeScript** — The project is treated as an enterprise-grade codebase, so TypeScript is used throughout with a strict configuration. All state, catalog data, and component props are fully typed.
+- **Custom hook for flash message** — The save-confirmation toast is extracted into a dedicated `useFlashMessage` hook, keeping side-effect logic out of components and making it reusable.
 
-## Learn More
+### UI & Design Decisions
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+- **Checkout button pinned on small viewports** — On mobile and tablet, the Checkout and "Save my system for later" buttons are fixed to the bottom of the screen so they remain accessible without scrolling to the bottom of the review panel.
+- **Missing design system** — No design tokens, component library, or style guide was provided alongside the Figma. Some components (spacing, typography scale, color values) are approximated by inspecting the design. A full pixel-perfect pass would require the actual design system assets.
+- **Plan card & sensor card treated as product card** — The Figma shows distinct card designs for plan selection and sensor products that differ from the camera card. Because no separate UI spec was provided for those variants, the same `ProductCard` component is reused across all categories. For the plans step, the card is rendered in `single`-selection mode (radio-style toggle, no quantity stepper) rather than the `multiple` mode used for cameras and accessories.
+- **Pixel-perfect coordination needed** — To fully close the gap between the implementation and the Figma, designer collaboration is required to clarify the complete design system (exact tokens, icon assets, component states, and edge-case layouts).
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### Unknowns & Gaps
 
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- **Fast Shipping item** — It is unclear from the brief how the "Fast Shipping" line item is meant to work: whether it is conditionally included, tied to a specific plan tier, or always free. It is currently hardcoded as a static line inside the review panel's Plans group as a placeholder until the business logic is clarified.
+- **Wyze Sense Hub pre-selection** — The design implies the Wyze Sense Hub should appear in the review panel as a required, always-included item (shown free of charge), but no rule defining that logic is documented in the brief. To avoid guessing, it is not added as part of the seeded initial state.
+- **Price mismatches** — Some prices in the review panel design do not match the product prices in `catalog.json`. For example, the Wyze Cam Pan v3 shows **$47.98** in the Figma review snapshot but is listed as **$34.98** in the catalog. The implementation uses the catalog prices. The correct source of truth (and whether bundle discounts apply) would need to be confirmed before going to production.
