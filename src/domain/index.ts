@@ -5,3 +5,6 @@ export {
   createInitialBundleState,
   toSelectionKey,
 } from './bundle';
+
+export { groupReviewItems } from './review/groupReviewItems';
+export type { ReviewCategoryGroup } from './review/groupReviewItems';

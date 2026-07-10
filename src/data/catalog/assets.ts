@@ -60,6 +60,12 @@ export function resolveProductImageUrl(
     return getAssetUrl(`icons/${catalogImagePath.slice('/icons/'.length)}`);
   }
 
+  if (catalogImagePath.startsWith('/images/others/')) {
+    return getAssetUrl(
+      `images/others/${catalogImagePath.slice('/images/others/'.length)}`,
+    );
+  }
+
   const productFolder = `images/data/products/${product.title}`;
 
   if (variantId) {

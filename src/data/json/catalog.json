@@ -118,7 +118,12 @@
         {
           "id": 6,
           "label": "White",
-          "image": "/images/cameras/wyze-cam-floodlight-v2-white.png"
+          "image": "/images/cameras/wyze-cam-floodlight-v2/white.png"
+        },
+        {
+          "id": 7,
+          "label": "Black",
+          "image": "/images/cameras/wyze-cam-floodlight-v2/black.png"
         }
       ]
     },
@@ -144,13 +149,13 @@
       "variants": [
         {
           "id": 7,
-          "label": "Standard",
-          "image": "/images/cameras/wyze-battery-cam-pro-standard.png"
+          "label": "White",
+          "image": "/images/cameras/wyze-battery-cam-pro/white.png"
         },
         {
           "id": 8,
-          "label": "With Solar Panel",
-          "image": "/images/cameras/wyze-battery-cam-pro-solar.png"
+          "label": "Black",
+          "image": "/images/cameras/wyze-battery-cam-pro/black.png"
         }
       ]
     },

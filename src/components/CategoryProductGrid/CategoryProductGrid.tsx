@@ -5,9 +5,7 @@ import type { ProductCardBadge } from '@/components/ProductCard/ProductCard';
 import { getCategoryById, getProductsByCategory, resolveProductImageUrl } from '@/data';
 import { toSelectionKey } from '@/domain';
 import type { CategoryId, Product, ProductId, VariantId } from '@/types';
-
-const formatPrice = (price: number) =>
-  new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(price);
+import { formatPrice } from '@/utils';
 
 function getSavingsBadge(product: Product): ProductCardBadge | undefined {
   if (!product.compareAtPrice || product.compareAtPrice <= product.price) {

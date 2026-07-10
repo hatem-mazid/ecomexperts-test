@@ -52,7 +52,7 @@ export function AccordionItem({
         aria-controls={panelId}
         onClick={onToggle}
         className={cn(
-          'flex w-full flex-col gap-2 md:px-4 px-0pt-3 text-left',
+          'flex w-full flex-col gap-2 md:px-4 px-0 pt-3 text-left',
           'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary',
         )}
       >
