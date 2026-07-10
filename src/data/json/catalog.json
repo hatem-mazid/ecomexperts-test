@@ -25,34 +25,34 @@
     {
       "id": "cameras",
       "categoryId": "cameras",
-      "title": "Cameras",
-      "description": "Choose your cameras",
+      "title": "Choose your cameras",
       "order": 1,
-      "icon": "icons/camera-step.svg"
+      "icon": "icons/camera-step.svg",
+      "nextButtonText": "Next: Choose your plan"
     },
     {
       "id": "plans",
       "categoryId": "plans",
-      "title": "Plans",
-      "description": "Choose your plan",
+      "title": "Choose your plan",
       "order": 2,
-      "icon": "icons/plan-step.svg"
+      "icon": "icons/plan-step.svg",
+      "nextButtonText": "Next: Choose your sensors"
     },
     {
       "id": "sensors",
       "categoryId": "sensors",
-      "title": "Sensors",
-      "description": "Choose your sensors",
+      "title": "Choose your sensors",
       "order": 3,
-      "icon": "icons/sensor-step.svg"
+      "icon": "icons/sensor-step.svg",
+      "nextButtonText": "Next: Add extra protection"
     },
     {
       "id": "extra-protection",
       "categoryId": "extra-protection",
-      "title": "Extra Protection",
-      "description": "Add extra protection",
+      "title": "Add extra protection",
       "order": 4,
-      "icon": "icons/extra-protection-step.svg"
+      "icon": "icons/extra-protection-step.svg",
+      "nextButtonText": "Next: Review your bundle"
     }
   ],
   "products": [
@@ -160,8 +160,7 @@
       "title": "Cam Pro",
       "description": "basic features supported by Wyze Cam Plus",
       "image": "/icons/plan-icon.svg",
-      "price": 4.99,
-      "compareAtPrice": 9.99,
+      "price": 5.49,
       "learnMoreUrl": "#"
     },
     {

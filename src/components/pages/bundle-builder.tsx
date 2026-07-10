@@ -1,73 +1,146 @@
-import { useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 
-import { ProductCard } from '@/components/ProductCard/ProductCard';
-import type { ProductCardBadge } from '@/components/ProductCard/ProductCard';
-import { getProductsByCategory, resolveProductImageUrl } from '@/data';
+import { CategoryProductGrid } from '@/components/CategoryProductGrid';
+import { ReviewSnapshot } from '@/components/ReviewSnapshot';
+import { Accordion } from '@/components/ui/Accordion';
+import type { AccordionStep } from '@/components/ui/Accordion';
+import {
+  getCategoryById,
+  getOrderedSteps,
+  products,
+  resolveProductImageUrl,
+} from '@/data';
 import { toSelectionKey } from '@/domain';
-import type { Product, ProductId, VariantId } from '@/types';
-import type { ReviewSnapshot } from '@/types/review';
+import { defaultSelectedVariants, useBundleStore } from '@/state/bundle-store';
+import { useRestoreSavedBundle } from '@/state/use-restore-saved-bundle';
+import type { CategoryId, ProductId, VariantId } from '@/types';
+import type { ReviewItem, ReviewSnapshot as ReviewSnapshotData } from '@/types/review';
 
-const cameraProducts = getProductsByCategory('cameras');
+const catalogSteps = getOrderedSteps();
 
-const formatPrice = (price: number) =>
-  new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(price);
-
-function getSavingsBadge(product: Product): ProductCardBadge | undefined {
-  if (!product.compareAtPrice || product.compareAtPrice <= product.price) {
-    return undefined;
-  }
-  const savings = Math.round(
-    ((product.compareAtPrice - product.price) / product.compareAtPrice) * 100,
-  );
-  return { label: `Save ${savings}%`, variant: 'default' };
-}
-
-/** Composite key: "productId" or "productId:variantId" */
 type QuantityKey = string;
 
-function quantityKey(productId: ProductId, variantId?: VariantId): QuantityKey {
-  return toSelectionKey(productId, variantId);
-}
-
 function BundleBuilder() {
-  // All quantities start at 0; keyed per product+variant pair.
+  const saveSystem = useBundleStore((state) => state.saveSystem);
+  const [openStepId, setOpenStepId] = useState<string>(catalogSteps[0]?.id ?? '');
   const [quantities, setQuantities] = useState<Record<QuantityKey, number>>({});
-
-  // Active variant shown in each product card.
+  const [selectedByCategory, setSelectedByCategory] = useState<
+    Partial<Record<CategoryId, ProductId>>
+  >({});
   const [selectedVariants, setSelectedVariants] = useState<Record<ProductId, VariantId>>(
-    () =>
-      Object.fromEntries(
-        cameraProducts
-          .filter((p) => p.variants?.length)
-          .map((p) => [p.id, p.variants![0].id]),
-      ),
+    () => ({ ...defaultSelectedVariants }),
   );
 
-  const getQty = (productId: ProductId, variantId?: VariantId) =>
-    quantities[quantityKey(productId, variantId)] ?? 0;
+  const restoreSavedBundle = useCallback(
+    (saved: {
+      quantities: Record<string, number>;
+      selectedByCategory: Partial<Record<CategoryId, ProductId>>;
+      selectedVariants: Record<ProductId, VariantId>;
+    }) => {
+      setQuantities(saved.quantities);
+      setSelectedByCategory(saved.selectedByCategory);
+      setSelectedVariants(saved.selectedVariants);
+    },
+    [],
+  );
 
-  const updateQuantity = (productId: ProductId, variantId: VariantId | undefined, delta: number) => {
-    const key = quantityKey(productId, variantId);
-    setQuantities((current) => ({
-      ...current,
-      [key]: Math.max(0, (current[key] ?? 0) + delta),
-    }));
+  useRestoreSavedBundle(restoreSavedBundle);
+
+  const handleStepToggle = (stepId: string) => {
+    setOpenStepId((current) => (current === stepId ? '' : stepId));
   };
 
-  // Derive ReviewSnapshot from current quantities — only items with qty > 0.
-  const reviewSnapshot = useMemo<ReviewSnapshot>(() => {
-    const items = cameraProducts.flatMap((product) => {
+  const handleNextStep = useCallback((currentStepId: string) => {
+    const currentIndex = catalogSteps.findIndex((step) => step.id === currentStepId);
+    const nextStep = catalogSteps[currentIndex + 1];
+    setOpenStepId(nextStep?.id ?? '');
+  }, []);
+
+  const handleQuantityChange = useCallback(
+    (productId: ProductId, variantId: VariantId | undefined, delta: number) => {
+      const key = toSelectionKey(productId, variantId);
+      setQuantities((current) => ({
+        ...current,
+        [key]: Math.max(0, (current[key] ?? 0) + delta),
+      }));
+    },
+    [],
+  );
+
+  const handleVariantSelect = useCallback((productId: ProductId, variantId: VariantId) => {
+    setSelectedVariants((current) => ({ ...current, [productId]: variantId }));
+  }, []);
+
+  const handleProductSelect = useCallback((categoryId: CategoryId, productId: ProductId) => {
+    setSelectedByCategory((current) => ({
+      ...current,
+      [categoryId]: current[categoryId] === productId ? undefined : productId,
+    }));
+  }, []);
+
+  const handleSaveForLater = useCallback(() => {
+    saveSystem({
+      quantities,
+      selectedByCategory,
+      selectedVariants,
+    });
+  }, [quantities, selectedByCategory, selectedVariants, saveSystem]);
+
+  const handleReviewQuantityChange = useCallback(
+    (item: ReviewItem, delta: number) => {
+      const category = getCategoryById(item.categoryId);
+      if (category?.selectionMode === 'single') {
+        if (delta < 0) {
+          setSelectedByCategory((current) => ({
+            ...current,
+            [item.categoryId]: undefined,
+          }));
+        }
+        return;
+      }
+      handleQuantityChange(item.productId, item.variantId, delta);
+    },
+    [handleQuantityChange],
+  );
+
+  const reviewSnapshot = useMemo<ReviewSnapshotData>(() => {
+    const getQty = (productId: ProductId, variantId?: VariantId) =>
+      quantities[toSelectionKey(productId, variantId)] ?? 0;
+
+    const items = products.flatMap((product) => {
+      const category = getCategoryById(product.categoryId);
+      const categoryTitle = category?.title ?? product.categoryId;
+
+      if (category?.selectionMode === 'single') {
+        if (selectedByCategory[product.categoryId] !== product.id) return [];
+        return [
+          {
+            key: toSelectionKey(product.id),
+            productId: product.id,
+            categoryId: product.categoryId,
+            categoryTitle,
+            title: product.title,
+            image: resolveProductImageUrl(product) ?? '',
+            quantity: 1,
+            unitPrice: product.price,
+            compareAtPrice: product.compareAtPrice,
+            lineTotal: product.price,
+            lineCompareAtTotal: product.compareAtPrice,
+          },
+        ];
+      }
+
       if (product.variants?.length) {
         return product.variants
           .map((variant) => {
             const qty = getQty(product.id, variant.id);
             if (qty === 0) return null;
             return {
-              key: quantityKey(product.id, variant.id),
+              key: toSelectionKey(product.id, variant.id),
               productId: product.id,
               variantId: variant.id,
               categoryId: product.categoryId,
-              categoryTitle: 'Cameras',
+              categoryTitle,
               title: product.title,
               variantLabel: variant.label,
               image: resolveProductImageUrl(product, variant.id) ?? '',
@@ -87,10 +160,10 @@ function BundleBuilder() {
       if (qty === 0) return [];
       return [
         {
-          key: quantityKey(product.id),
+          key: toSelectionKey(product.id),
           productId: product.id,
           categoryId: product.categoryId,
-          categoryTitle: 'Cameras',
+          categoryTitle,
           title: product.title,
           image: resolveProductImageUrl(product) ?? '',
           quantity: qty,
@@ -118,57 +191,51 @@ function BundleBuilder() {
         savings: compareAtSubtotal !== undefined ? compareAtSubtotal - subtotal : undefined,
       },
     };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [quantities]);
+  }, [quantities, selectedByCategory]);
+
+  const selectedCountByCategory = useMemo(
+    () =>
+      reviewSnapshot.items.reduce<Record<string, number>>((acc, item) => {
+        acc[item.categoryId] = (acc[item.categoryId] ?? 0) + 1;
+        return acc;
+      }, {}),
+    [reviewSnapshot.items],
+  );
 
   return (
-    <div className="container-fluid mx-auto bg-surface p-2">
-      {/* Debug: show snapshot item count */}
-      <p className="mb-2 text-sm text-gray-600">
-        {reviewSnapshot.totals.itemCount} item(s) selected
-      </p>
+    <div className="container-fluid mx-auto max-w-screen-2xl pt-12 md:p-2 p-0">
+      <h2 className="md:hidden block mb-5 text-3xl text-center font-bold text-gray-obsidian">Let’s get started!</h2>
+      <div className="flex flex-col md:gap-6 gap-0 lg:flex-row lg:items-start lg:gap-8 2xl:flex-col">
+        <div className="min-w-0 flex-1 w-full">
+          <Accordion
+            steps={catalogSteps}
+            openStepId={openStepId}
+            onStepToggle={handleStepToggle}
+            onNextStep={handleNextStep}
+            getSelectedCount={(step) => selectedCountByCategory[step.id] ?? 0}
+            renderPanel={(step: AccordionStep) => (
+              <CategoryProductGrid
+                categoryId={step.id as CategoryId}
+                quantities={quantities}
+                selectedVariants={selectedVariants}
+                selectedProductId={selectedByCategory[step.id as CategoryId] ?? null}
+                onQuantityChange={handleQuantityChange}
+                onVariantSelect={handleVariantSelect}
+                onProductSelect={(productId) =>
+                  handleProductSelect(step.id as CategoryId, productId)
+                }
+              />
+            )}
+          />
+        </div>
 
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-5 sm:[&>*:last-child]:col-span-2 sm:[&>*:last-child]:justify-self-center sm:[&>*:last-child]:w-1/2 xl:[&>*:last-child]:col-span-1 xl:[&>*:last-child]:justify-self-auto xl:[&>*:last-child]:w-auto">
-        {cameraProducts.map((product) => {
-          const selectedVariantId = selectedVariants[product.id];
-          const currentQty = getQty(product.id, selectedVariantId);
-
-          // A card is highlighted when any variant (or the product itself) has qty > 0.
-          const isSelected = product.variants?.length
-            ? product.variants.some((v) => getQty(product.id, v.id) > 0)
-            : getQty(product.id) > 0;
-
-          return (
-            <ProductCard
-              key={product.id}
-              title={product.title}
-              badge={getSavingsBadge(product)}
-              description={product.description}
-              currentPrice={formatPrice(product.price)}
-              compareAtPrice={
-                product.compareAtPrice ? formatPrice(product.compareAtPrice) : undefined
-              }
-              quantity={currentQty}
-              quantityMin={0}
-              image={resolveProductImageUrl(product)}
-              learnMoreUrl={product.learnMoreUrl}
-              isSelected={isSelected}
-              variants={product.variants?.map((variant) => ({
-                id: variant.id,
-                label: variant.label,
-                image: resolveProductImageUrl(product, variant.id),
-                selected: selectedVariantId === variant.id,
-                onSelect: () =>
-                  setSelectedVariants((current) => ({
-                    ...current,
-                    [product.id]: variant.id,
-                  })),
-              }))}
-              onQuantityIncrease={() => updateQuantity(product.id, selectedVariantId, 1)}
-              onQuantityDecrease={() => updateQuantity(product.id, selectedVariantId, -1)}
-            />
-          );
-        })}
+        <aside className="w-full lg:w-96 lg:shrink-0 lg:sticky lg:top-4 2xl:w-full 2xl:static">
+          <ReviewSnapshot
+            snapshot={reviewSnapshot}
+            onQuantityChange={handleReviewQuantityChange}
+            onSaveForLater={handleSaveForLater}
+          />
+        </aside>
       </div>
     </div>
   );

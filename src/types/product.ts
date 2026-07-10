@@ -10,7 +10,7 @@ export type SelectionMode = 'single' | 'multiple';
 export interface Category {
   id: CategoryId;
   title: string;
-  description: string;
+  description?: string;
   selectionMode: SelectionMode;
 }
 
@@ -18,9 +18,10 @@ export interface Step {
   id: StepId;
   categoryId: CategoryId;
   title: string;
-  description: string;
+  description?: string;
   order: number;
   icon: string;
+  nextButtonText: string;
 }
 
 export type ProductId = number;
